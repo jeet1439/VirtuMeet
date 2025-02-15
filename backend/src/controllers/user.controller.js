@@ -50,10 +50,8 @@ const register = async (req, res) => {
           return res.status(httpStatus.CONFLICT).json({ message: "User already exists" });
       }
 
-      // Hash password
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      // Create a new user
       const newUser = new User({
           name,
           username,
