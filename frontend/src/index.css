@@ -2,7 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-
+.btn-gradient {
+    @apply bg-gradient-to-r from-orange-500 to-red-800 transition-all duration-300 
+           hover:from-red-800 hover:to-orange-500;
+}
+  
 *{ 
     margin: 0;
     padding: 0;
