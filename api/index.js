@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
     res.send("hello");
 });
 
-// console.log(process.env.MONGO_URL);
+
 
 const start = async () => {
     try {

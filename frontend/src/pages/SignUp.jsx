@@ -11,17 +11,12 @@ export default function SignUp() {
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState("");
 
-  useEffect(() => {
-    if (errorMsg) {
-      const timer = setTimeout(() => setErrorMsg(""), 3000); 
-      return () => clearTimeout(timer); 
-    }
-  }, [errorMsg]);
 
-
+ 
   const handleChange = (e) => {
     setFormData({...formData, [e.target.id] : e.target.value.trim()});
   };
+
   const handleSubmit = async (e) =>{
     e.preventDefault();
     if(!formData.username || !formData.email || !formData.password){
@@ -72,6 +67,8 @@ export default function SignUp() {
       setLoading(false);
     }
   };
+  
+  
 
   return (
     <div className='min-h-screen pt-20 bg-customDark'>

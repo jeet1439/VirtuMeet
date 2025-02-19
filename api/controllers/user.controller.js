@@ -10,14 +10,14 @@ dotenv.config();
 
 
 const login = async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    if (!username || !password) {
+    if (!email || !password) {
         return res.status(httpStatus.BAD_REQUEST).json({ message: "Please provide username and password" });
     }
 
     try {
-        const user = await User.findOne({ username });
+        const user = await User.findOne({ email });
 
         if (!user) {
             return res.status(httpStatus.NOT_FOUND).json({ message: "User not found" });
@@ -29,11 +29,15 @@ const login = async (req, res) => {
         }
 
         const token = jwt.sign({ userId: user._id, username: user.username }, process.env.SECRET_KEY, { expiresIn: "1h" });
-
         user.token = token;
         await user.save();
 
-        res.status(httpStatus.OK).json({ message: "Login successful", token });
+        const { password: pass, ...rest} = user._doc;
+
+        res.status(200).cookie('access_token', token, {
+          httpOnly: true
+        }).json(rest);
+
     } catch (error) {
         res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ message: `Something went wrong: ${error.message}` });
     }
