@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice';
-
+import Navbar from '../components/Navbar.jsx';
 export default function Login() {
   const [formData, setFormData] = useState({});
   const { loading, error: errorMsg } = useSelector(state => state.user);
@@ -50,6 +50,8 @@ export default function Login() {
   }
 
   return (
+    <>
+    <Navbar/>
     <div className='min-h-screen pt-20 bg-customDark'>
       <div className='flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5'>
         <div className='flex-1'>
@@ -120,5 +122,6 @@ export default function Login() {
         </div>
       </div>
     </div>
+    </>
   )
 }

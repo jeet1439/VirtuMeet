@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { io } from "socket.io-client";
-``
+import { VideoOff, MicOff, Video, Mic, PhoneOff, MessageSquare } from 'lucide-react';
 
 const server_url = 'http://localhost:8080';
 
@@ -38,7 +38,10 @@ export default function VideoMeetComponent() {
 
   const videoRef = useRef([]);
   let [videos, setVideos] = useState([]);
-
+  
+  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(true);
+  
   // if(isChrome() === false){
 
   // }
@@ -328,37 +331,119 @@ export default function VideoMeetComponent() {
     setAskForUsername(false);
     getMedia(); 
 };
+ 
+const toggleVideo = () => {
+  if (localVideoRef.current) {
+    if (isVideoPlaying) {
+      localVideoRef.current.pause();
+    } else {
+      localVideoRef.current.play();
+    }
+    setIsVideoPlaying(!isVideoPlaying);
+  }
+};
 
+const toggleMute = () => {
+  if (localVideoRef.current) {
+    localVideoRef.current.muted = !isMuted;
+    setIsMuted(!isMuted);
+  }
+};
   return (
     <div>
       { askForUsername === true ? (
-        <div>
-          <h2>Enter to lobby :</h2>
-          <input value={username} type='text' onChange={ e => setUsername(e.target.value)}/>
-          <button onClick={connect}>Connect</button>
+    <div className="relative w-full h-screen overflow-hidden bg-slate-900">
+    
+    <video
+        ref={localVideoRef}
+        autoPlay
+        muted={isMuted}
+        className="absolute top-0 left-0 w-full h-[100vh] object-contain transform scale-x-[-1]"
+      ></video>
 
-        <div>
-          <video ref={localVideoRef} autoPlay muted>
-
-          </video>
+      <div className=' fixed bottom-0 left-1/2 transform -translate-x-1/2 flex flex-col' >
+      <div className="flex  space-x-4 mb-6 flex-row align-middle text-center justify-center">
+        <button
+          onClick={toggleVideo}
+          className=" text-white rounded-lg shadow-lg transition duration-300"
+        >
+          {isVideoPlaying ? <Video/> : <VideoOff/>}
+        </button>
+        <button
+          onClick={toggleMute}
+          className=" text-white rounded-lg shadow-lg transition duration-300"
+        >
+          {isMuted ? <MicOff/> : <Mic/> }
+        </button>
         </div>
-        </div>
+        <div className="flex  space-x-4 mb-6 flex-row">
+        <input
+        value={username}
+        type="text"
+        onChange={(e) => setUsername(e.target.value)}
+        className='h-10 rounded-md'
+        placeholder="Enter your name"
+       />
+  
+       <button onClick={connect} className='bg-green-500 h-10 px-2 py-2 rounded-md hover:bg-green-600'>
+         Connect
+         </button>
+      </div>
+      </div>
+  </div>
       ) : 
       (
         <>
-        <video ref={localVideoRef} autoPlay muted>
 
-        </video>
+        <div className="relative w-full h-screen bg-gray-900 flex flex-wrap gap-4 p-4 overflow-hidden">
+      {/* Remote Videos Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full h-full p-4">
         {videos.map((video) => (
-        <div key={video.socketId}>
-             {video.socketId}
-             <video data-socket={video.socketId} ref={ref => {
-              if(ref && video.stream){
-                ref.srcObject = video.stream;
-              }
-             }} autoPlay></video>
-        </div>
+          <div key={video.socketId} className="">
+            
+            <video
+              data-socket={video.socketId}
+              ref={(ref) => {
+                if (ref && video.stream) {
+                  ref.srcObject = video.stream;
+                }
+              }}
+              autoPlay
+              className="w-full h-auto rounded-md transform scale-x-[-1]"
+            ></video>
+            <p className="text-white text-sm mb-1 text-center">User: {video.socketId}</p>
+          </div>
         ))}
+      </div>
+      
+      {/* Local Video in Bottom Right Corner */}
+      <div className="absolute bottom-4 right-4 w-40 h-40 md:w-56 md:h-56 bg-black rounded-lg overflow-hidden shadow-xl border-2 border-gray-700">
+        <video ref={localVideoRef} autoPlay muted className="w-full h-full object-cover transform scale-x-[-1]"></video>
+      </div>
+    </div>
+
+    <div className=' fixed bottom-0 left-1/2 transform -translate-x-1/2 flex flex-col' >
+      <div className="flex  space-x-4 mb-6 flex-row align-middle text-center justify-center">
+        <button
+          onClick={toggleVideo}
+          className=" text-white rounded-lg shadow-lg transition duration-300"
+        >
+          {isVideoPlaying ? <Video/> : <VideoOff/>}
+        </button>
+        <button
+          onClick={toggleMute}
+          className=" text-white rounded-lg shadow-lg transition duration-300"
+        >
+          {isMuted ? <MicOff/> : <Mic/> }
+        </button>
+        <button className='text-red-600'>
+          <PhoneOff/>
+        </button>
+        <button className='text-stone-100' >
+          <MessageSquare/>
+        </button>
+        </div>
+        </div>
         </>
       )}
     </div>
