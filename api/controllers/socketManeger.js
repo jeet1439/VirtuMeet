@@ -59,6 +59,10 @@ export const connectToSocket = (server) => {
                 });
             }
         })
+        socket.on("screen-sharing-started", ({ userId }) => {
+            socket.broadcast.to(roomId).emit("receive-screen-stream", { userId });
+        });
+        
         socket.on("disconnect", () => {
          var diffTime = Math.abs(timeOnline[socket.id] - new Date());
          var key;
