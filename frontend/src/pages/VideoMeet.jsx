@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { io } from "socket.io-client";
 import { VideoOff, MicOff, Video, Mic, PhoneOff, MessageSquare, Monitor, MonitorOff } from 'lucide-react';
+import { useParams } from "react-router-dom";
 
 const server_url = 'http://localhost:8080';
 
@@ -16,6 +17,8 @@ export default function VideoMeetComponent() {
   let socketRef = useRef();
   let socketIdRef = useRef();
   let localVideoRef = useRef();
+  
+  const { url: meetingId } = useParams(); 
 
   let [videoAvailable, setVideoAvailable] = useState(true);
 
@@ -49,6 +52,8 @@ export default function VideoMeetComponent() {
     "bg-gradient-to-r from-sky-500 to-blue-500",
     "bg-gradient-to-r from-indigo-500 to-blue-600",
   ];
+
+  const [ loading, setIsLoading ] = useState(false);
 
   // if(isChrome() === false){
 
@@ -246,8 +251,9 @@ export default function VideoMeetComponent() {
       });
 
       socketRef.current.on("user-joined", (id, clients) => {
-
-        setMessages([]); 
+      if (id === socketIdRef.current) {
+          setMessages([]); 
+      }  
         clients.forEach((socketListId) => {
 
           connections[socketListId] = new RTCPeerConnection(peerConfigConnections);
@@ -318,11 +324,32 @@ export default function VideoMeetComponent() {
 
     connectToSocketServer();
   }
+  
+  const joinMeeting = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetch(`/api/history/save/${meetingId}`, {
+        method: "POST",
+        credentials: 'include',
+      });
+      if (!res.ok) { 
+        throw new Error(`Failed:. Status: ${res.status}`);
+      }
+      const data = await res.json();
+      console.log("Meeting history saved:", data);
+    } catch (error) {
+      console.error("Failed to save history", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const connect = async () => {
+    setMessages([]);
     await getPermissions();
     setAskForUsername(false);
     getMedia();
+    joinMeeting();
   };
 
   const toggleVideo = () => {
@@ -459,37 +486,23 @@ export default function VideoMeetComponent() {
 
 
   const handleEndCall = () => {
-    // Emit a custom event "end-call" to the server to signal the disconnection
     socketRef.current.emit("end-call");
     setMessages([]);
-    // Close the peer connections
+ 
     for (let socketId in connections) {
       if (connections.hasOwnProperty(socketId)) {
         connections[socketId].close();
         delete connections[socketId];
       }
     }
-  
-    // Close the local media stream if available
+
     if (window.localStream) {
       const tracks = window.localStream.getTracks();
       tracks.forEach(track => track.stop());
       window.localStream = null;
     }
-  
-    // Update the UI to reflect that the call is ended
     setVideos([]);
-
-    useEffect(() => {
-      socketRef.current.on("clear-messages", () => {
-        setMessages([]);  // Clear the messages when the server broadcasts this event
-      });
-    
-      return () => {
-        socketRef.current.off("clear-messages");  // Cleanup the event listener
-      };
-    }, []);
-
+    //TODO: Navite to link create page
   };
  
 
@@ -515,8 +528,9 @@ export default function VideoMeetComponent() {
                 onChange={(e) => setUsername(e.target.value)}
                 className='h-10 rounded-md'
                 placeholder="Enter your name"
+                required
               />
-
+    
               <button onClick={connect} className='bg-green-500 h-10 px-2 py-2 rounded-md hover:bg-green-600'>
                 Connect
               </button>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaVideo, FaDesktop, FaComments, FaShieldAlt } from 'react-icons/fa'
+import { FaVideo, FaDesktop, FaComments, FaShieldAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom'
 export default function Hero() {
   return (
@@ -20,11 +20,12 @@ export default function Hero() {
         </a>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-2 max-w-6xl mx-auto">
+  <Link to='create-meet'>   
   <div className="flex flex-col items-center py-6 px-8 rounded-xl text-white shadow-2xl">
     <FaVideo className="text-5xl mb-4 text-orange-500" />
     <h3 className="text-lg">Create Meeting</h3>
   </div>
-  
+  </Link>   
   <div className="flex flex-col items-center  py-6 px-8 rounded-xl text-white shadow-2xl">
     <FaDesktop className="text-5xl mb-4 text-orange-600" />
     <h3 className="text-lg">Screen Share</h3>
@@ -40,11 +41,6 @@ export default function Hero() {
     <h3 className="text-lg">Security</h3>
   </div>
 </div>
-   <Link  to="https://github.com/jeet1439" target='_blank'>
-    <div className='flex justify-center my-10'>
-        <h3 className='text-md bg-gradient-to-r from-orange-500 to-red-800 px-5 py-2 rounded-md text-stone-200 '>Made by Jeet_banik</h3>
-    </div>
-    </Link>
     </div>
   )
 }

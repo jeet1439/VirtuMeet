@@ -3,8 +3,11 @@ import { lazy } from 'react';
 import LandingPage from './pages/LandingPage';
 import VideoMeetComponent from './pages/VideoMeet.jsx';
 
+
 const Login = lazy(() => import('./pages/Login.jsx'));
 const SignUp = lazy(() => import('./pages/SignUp.jsx'));
+const SetMeeting = lazy(() => import('./pages/SetMeeting.jsx'));
+const History = lazy(() => import('./pages/History.jsx'));
 
 function App() {
   return (
@@ -15,6 +18,8 @@ function App() {
           <Route path='/login' element={<Login/>}/>
           <Route path='/signup' element={<SignUp/>}/>
           <Route path='/:url' element={<VideoMeetComponent/>}/>
+          <Route path='/create-meet' element={<SetMeeting/>}/>
+          <Route path='/history/:userId' element={<History/>}/>
         </Routes>
       </Router>
     </>

@@ -1,6 +1,7 @@
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Navbar from '../components/Navbar.jsx';
 
 export default function SignUp() {
   const [ formData, setFormData ] = useState({});
@@ -71,6 +72,9 @@ export default function SignUp() {
   
 
   return (
+    <>
+    <Navbar/>
+    
     <div className='min-h-screen pt-20 bg-customDark'>
       <div className='flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5'>
         <div className='flex-1'>
@@ -166,5 +170,6 @@ export default function SignUp() {
         </div>
       </div>
     </div>
+    </>
   )
 }
