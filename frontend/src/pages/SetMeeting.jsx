@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx';
 import r3 from '../assets/r3.png';
 import { RefreshCcw } from "lucide-react";
+import { Link } from 'react-router-dom';
 export default function SetMeeting() {
 
   let navigate = useNavigate();
@@ -38,7 +39,9 @@ export default function SetMeeting() {
         </button>
         <button onClick={generateCode}><RefreshCcw className='text-stone-200 '/></button>
         </div>
-        
+        <div className='mt-7'>
+        <Link to='/show_meeting_history'><span className='text-blue-600 hover:underline'>Meeting History</span></Link>
+        </div>
       </div>
 
       {/* Right Section - Image */}

@@ -25,7 +25,7 @@ app.use(express.urlencoded({limit: "40kb", extended: true}));
 app.use(cookieParser());
 
 app.use("/api/v1/users", userRoutes);
-app.use("/api/history", meetingsRoutes);
+app.use("/api", meetingsRoutes);
 
 app.get('/', (req, res) => {
     res.send("hello");

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { io } from "socket.io-client";
 import { VideoOff, MicOff, Video, Mic, PhoneOff, MessageSquare, Monitor, MonitorOff } from 'lucide-react';
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const server_url = 'http://localhost:8080';
 
@@ -17,7 +17,10 @@ export default function VideoMeetComponent() {
   let socketRef = useRef();
   let socketIdRef = useRef();
   let localVideoRef = useRef();
-  
+
+  const navigate = useNavigate();
+
+
   const { url: meetingId } = useParams(); 
 
   let [videoAvailable, setVideoAvailable] = useState(true);
@@ -502,7 +505,7 @@ export default function VideoMeetComponent() {
       window.localStream = null;
     }
     setVideos([]);
-    //TODO: Navite to link create page
+    navigate('/');
   };
  
 

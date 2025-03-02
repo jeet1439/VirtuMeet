@@ -1,9 +1,12 @@
 import { Router } from 'express';
-import { saveMeetingHistory } from '../controllers/meetings.controllers.js';
+import { saveMeetingHistory, getMeetingHistory } from '../controllers/meetings.controllers.js';
 import { verifyToken } from '../utils/verifyUser.js';
 
 const router = Router();
 
-router.post("/save/:meetingId", verifyToken, saveMeetingHistory);
+
+router.post("/history/save/:meetingId", verifyToken, saveMeetingHistory);
+router.get('/history/:userId', verifyToken, getMeetingHistory);
+
 
 export default router;

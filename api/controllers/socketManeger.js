@@ -52,21 +52,18 @@ export const connectToSocket = (server) => {
             );
 
             if (found) {
-                // Initialize the message list for the room if not exists
                 if (!messages[matchingRoom]) {
                     messages[matchingRoom] = [];
                 }
 
-                // Store the message
                 messages[matchingRoom].push({
                     sender: sender,
                     data: data,
                     "socket-id-sender": socket.id,
                 });
 
-                // console.log("Message received in room:", matchingRoom, "from", sender, ":", data);
+                // console.log("Message received :", matchingRoom, "from", sender, ":", data);
 
-                // Broadcast the message 
                 connections[matchingRoom].forEach((elem) => {
                     io.to(elem).emit("chat-message", data, sender, socket.id);
                 });
@@ -90,12 +87,9 @@ export const connectToSocket = (server) => {
                         var index = connections[key].indexOf(socket.id);
                         connections[key].splice(index, 1);
         
-                        // If no users remain in the room, delete the room and its messages
-                        console.log(connections[key].length);
                         if (connections[key].length === 0) {
                             delete connections[key];
-                            delete messages[key]; // Clear messages when the last user leaves
-                            console.log("deleted")
+                            delete messages[key]; // 
                         }
                     }
                 }

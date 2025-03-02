@@ -19,7 +19,7 @@ function App() {
           <Route path='/signup' element={<SignUp/>}/>
           <Route path='/:url' element={<VideoMeetComponent/>}/>
           <Route path='/create-meet' element={<SetMeeting/>}/>
-          <Route path='/history/:userId' element={<History/>}/>
+          <Route path='/show_meeting_history' element={<History/>}/>
         </Routes>
       </Router>
     </>
