@@ -4,7 +4,7 @@ import { VideoOff, MicOff, Video, Mic, PhoneOff, MessageSquare, Monitor, Monitor
 import { useNavigate, useParams } from "react-router-dom";
 
 // const server_url = 'http://localhost:8080';
-const server_url = 'https://virtumeet.onrender.com';
+const server_url = 'https://virtumeet-1.onrender.com';
 const connections = {};
 
 const peerConfigConnections = {
