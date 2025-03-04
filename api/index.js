@@ -32,7 +32,7 @@ app.use(cookieParser());
 app.use("/api/v1/users", userRoutes);
 app.use("/api", meetingsRoutes);
 
-app.use(express.static(path.join(__dirname, '/client/dist')));
+app.use(express.static(path.join(__dirname, '/frontend/dist')));
 
 
 app.get('*', (req, res) => {
