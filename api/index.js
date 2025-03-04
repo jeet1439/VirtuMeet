@@ -5,18 +5,23 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
-
+import path from 'path';
 
 import dotenv from 'dotenv';
-
 dotenv.config();
+
+const __dirname = path.resolve();
 
 import userRoutes from './routes/users.routes.js';
 import meetingsRoutes from './routes/meetings.route.js';
 
+
+
 const app = express();
 const server = createServer(app);
 const io = connectToSocket(server);
+
+
 
 app.set("port", (process.env.PORT || 8080));
 app.use(cors());
@@ -27,9 +32,17 @@ app.use(cookieParser());
 app.use("/api/v1/users", userRoutes);
 app.use("/api", meetingsRoutes);
 
-app.get('/', (req, res) => {
-    res.send("hello");
-});
+app.use(express.static(path.join(__dirname, '/client/dist')));
+
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+  });
+
+
+// app.get('/', (req, res) => {
+//     res.send("hello");
+// });
 
 
 

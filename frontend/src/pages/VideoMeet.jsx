@@ -3,8 +3,8 @@ import { io } from "socket.io-client";
 import { VideoOff, MicOff, Video, Mic, PhoneOff, MessageSquare, Monitor, MonitorOff } from 'lucide-react';
 import { useNavigate, useParams } from "react-router-dom";
 
-const server_url = 'http://localhost:8080';
-
+// const server_url = 'http://localhost:8080';
+const server_url = 'https://virtumeet.onrender.com';
 const connections = {};
 
 const peerConfigConnections = {
@@ -33,8 +33,6 @@ export default function VideoMeetComponent() {
   let [screen, setScreen] = useState();
   let [showModal, setModal] = useState();
   const [showChat, setShowChat] = useState(false);
-
-  let [screenAvailable, setScreenAvailable] = useState();
 
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
