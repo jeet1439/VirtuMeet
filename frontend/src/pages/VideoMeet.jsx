@@ -3,8 +3,8 @@ import { io } from "socket.io-client";
 import { VideoOff, MicOff, Video, Mic, PhoneOff, MessageSquare, Monitor, MonitorOff } from 'lucide-react';
 import { useNavigate, useParams } from "react-router-dom";
 
-// const server_url = 'http://localhost:8080';
-const server_url = 'https://virtumeet-1.onrender.com';
+const server_url = 'http://localhost:8080';
+// const server_url = 'https://virtumeet-1.onrender.com';
 const connections = {};
 
 const peerConfigConnections = {
@@ -60,39 +60,7 @@ export default function VideoMeetComponent() {
 
   // }
 
-  // const getPermissions = async () => {
-  //   try {
-  //     const videoPermission = await navigator.mediaDevices.getUserMedia({video: true});
-  //     if(videoPermission){
-  //       setVideoAvailable(true);
-  //     }else{
-  //       setVideoAvailable(false);
-  //     }
 
-  //     const audioPermission = await navigator.mediaDevices.getUserMedia({audio: true});
-  //     if(audioPermission){
-  //       setAudioAvailable(true);
-  //     }else{
-  //       setAudioAvailable(false);
-  //     }
-  //     if(navigator.mediaDevices.getDisplayMedia){
-  //       setScreenAvailable(true);
-  //     }else{
-  //       setScreenAvailable(false);
-  //     }
-  //     if(videoAvailable || audioAvailable){
-  //       const userMediaStream = await navigator.mediaDevices.getUserMedia({video: videoAvailable, audio: audioAvailable});
-  //       if(userMediaStream){
-  //         window.localStream = userMediaStream;
-  //         if(localVideoRef.current){
-  //           localVideoRef.current.srcObject = userMediaStream;
-  //         }
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
   const getPermissions = async () => {
     try {
       // Request media devices
@@ -532,7 +500,8 @@ export default function VideoMeetComponent() {
                 required
               />
     
-              <button onClick={connect} className='bg-green-500 h-10 px-2 py-2 rounded-md hover:bg-green-600'>
+              <button disabled={!username.trim()} onClick={connect} className={`h-10 px-2 py-2 rounded-md transition 
+              ${username.trim() ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-400 cursor-not-allowed'}`}>
                 Connect
               </button>
             </div>
