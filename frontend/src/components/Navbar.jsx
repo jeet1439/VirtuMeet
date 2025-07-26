@@ -34,18 +34,17 @@ export default function Navbar() {
     <div>
       <nav>
         <div className='navHeader'>
-        <Link to="/" className='self-center whitespace-nowrap  rounded-md'>
+        <Link to="/create-meet" className='self-center whitespace-nowrap  rounded-md'>
                 <img src={logo} alt="Logo" className="w-32" />
             </Link>
         </div>
         <div className={`navList ${menuOpen ? 'open' : ''}`}>
-          <p className='hover:text-orange-500'>Home</p>
-
-          <Link to='/create-meet'><div role='button' ><p className='hover:text-orange-500'>Join as guest</p></div></Link>
+          <Link to='/create-meet'><p className='hover:text-orange-500'>Home</p></Link>
+          <Link to='/'><div role='button' ><p className='hover:text-orange-500'>Join as guest</p></div></Link>
 
           {
-            (currentUser === null) ? (<Link to='/signup'>
-              <p className='bg-gradient-to-r from-orange-500 to-red-800 rounded-md px-3 py-1 transition-all duration-300 hover:from-red-800 hover:to-orange-500'>Register</p>
+            (currentUser === null) ? (<Link to='/login'>
+              <p className='bg-gradient-to-r from-orange-500 to-red-800 rounded-md px-3 py-1 transition-all duration-300 hover:from-red-800 hover:to-orange-500'>Login</p>
               </Link>) : ( 
                 <button onClick={handleSignout}><p className='hover:text-orange-500'>Logout</p></button>
               )

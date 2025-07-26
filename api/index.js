@@ -4,7 +4,7 @@ import { connectToSocket } from './controllers/socketManeger.js';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-
+import job from './lib/cron.js';
 import path from 'path';
 
 import dotenv from 'dotenv';
@@ -25,6 +25,7 @@ const io = connectToSocket(server);
 
 app.set("port", (process.env.PORT || 8080));
 app.use(cors());
+job.start();
 app.use(express.json({limit: "40kb"}));
 app.use(express.urlencoded({limit: "40kb", extended: true}));
 app.use(cookieParser());
@@ -33,7 +34,6 @@ app.use("/api/v1/users", userRoutes);
 app.use("/api", meetingsRoutes);
 
 app.use(express.static(path.join(__dirname, '/frontend/dist')));
-
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));

@@ -23,7 +23,7 @@ export default function Hero() {
       </Link>
       
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-2 max-w-6xl mx-auto">
-  <Link to='create-meet'>   
+  <Link to='/'>   
   <div className="flex flex-col items-center py-6 px-8 rounded-xl text-white shadow-2xl">
     <FaVideo className="text-5xl mb-4 text-orange-500" />
     <h3 className="text-lg">Create Meeting</h3>

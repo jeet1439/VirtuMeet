@@ -14,11 +14,11 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path='/' element={<LandingPage/>} />
+          <Route path='/' element={<SetMeeting/>} />
           <Route path='/login' element={<Login/>}/>
           <Route path='/signup' element={<SignUp/>}/>
           <Route path='/:url' element={<VideoMeetComponent/>}/>
-          <Route path='/create-meet' element={<SetMeeting/>}/>
+          <Route path='/create-meet' element={<LandingPage/>}/>
           <Route path='/show_meeting_history' element={<History/>}/>
         </Routes>
       </Router>

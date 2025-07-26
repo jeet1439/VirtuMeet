@@ -16,11 +16,13 @@
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.7",
+    "cron": "^4.3.2",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "http-status": "^2.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.10.0",
+    "node-cron": "^4.2.1",
     "socket.io": "^4.8.1"
   }
 }

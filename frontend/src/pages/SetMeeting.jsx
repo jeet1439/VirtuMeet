@@ -3,13 +3,14 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx';
 import r3 from '../assets/r3.png';
-import { RefreshCcw } from "lucide-react";
+import { Copy, RefreshCcw } from "lucide-react";
 import { Link } from 'react-router-dom';
 export default function SetMeeting() {
 
   let navigate = useNavigate();
   const [ meetingCode, setMeetingCode] = useState("");
-  
+  const [copySuccess, setCopySuccess] = useState("");
+
   const generateCode = () => {
     const randomCode = Math.random().toString(36).substring(2, 8).toUpperCase() ;
     setMeetingCode(randomCode);
@@ -20,7 +21,14 @@ export default function SetMeeting() {
       navigate(`/${meetingCode}`);
     }
   }
-  
+
+  const handleCopy = () => {
+    const fullLink = `https://virtumeet-1.onrender.com/${meetingCode}`;
+    navigator.clipboard.writeText(fullLink);
+    setCopySuccess("Copied!");
+    setTimeout(() => setCopySuccess(""), 1500); 
+  };
+
   return (
     <>
     <Navbar/>
@@ -39,6 +47,27 @@ export default function SetMeeting() {
         </button>
         <button onClick={generateCode}><RefreshCcw className='text-stone-200 '/></button>
         </div>
+         {meetingCode && (
+        <div className="mt-4 flex items-center gap-2">
+          <input
+            type="text"
+            value={`https://virtumeet-1.onrender.com/${meetingCode}`}
+            readOnly
+            className="border rounded px-2 w-64 max-w-md text-sm text-gray-700"
+          />
+          <button
+            onClick={handleCopy}
+            className="p-2 rounded"
+            title="Copy link"
+          >
+            <Copy size={18} />
+          </button>
+          <span className="text-green-600 text-sm">{copySuccess}</span>
+        </div>
+      )}
+      { meetingCode && (
+        <span className='text-sm text-gray-400'>Share this code with your friends to join the meeting</span>
+      )}
         <div className='mt-7'>
         <Link to='/show_meeting_history'><span className='text-blue-600 hover:underline'>Meeting History</span></Link>
         </div>
@@ -49,7 +78,8 @@ export default function SetMeeting() {
         <img
           src={r3}
           alt="Video Call Illustration"
-          className="rounded-xl"
+          className="rounded-xl "
+          style={{ height: '20rem' }}
         />
       </div>
       

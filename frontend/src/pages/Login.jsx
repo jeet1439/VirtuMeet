@@ -42,7 +42,7 @@ export default function Login() {
       if(res.ok){
         setSucessMsg(data.message);
         dispatch(signInSuccess(data));
-        navigate('/create-meet');
+        navigate('/');
       }
     } catch (error) {
       dispatch(signInFailure(error.message));
